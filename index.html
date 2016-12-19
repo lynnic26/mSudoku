@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>mSudoku - Lynnic</title>
+    <link rel="stylesheet" href="css/sudoku.css">
+</head>
+<body>
+    <h1 class="main-title">Sudoku</h1>
+    <div id="container">
+    	
+    </div>
+	<script src="js/jquery-2.0.3.min.js"></script>
+    <script src="js/sudoku.js"></script>
+    <script>
+    	var game = Sudoku.getInstance();
+    	$('#container').append(game.getGameBoard());
+    </script>
+</body>
+</html>

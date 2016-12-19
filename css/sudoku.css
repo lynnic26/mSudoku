@@ -1,0 +1,10 @@
+.main-title {
+    text-align: center;
+}
+.sudoku-container {
+	margin: 0 auto;
+}
+.sudoku-container input {
+	height: 40px;
+	width: 40px;
+}
