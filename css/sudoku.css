@@ -1,9 +1,20 @@
 .main-title {
     text-align: center;
 }
+#operation {
+	text-align: center;
+}
+#operation button {
+	padding: 5px;
+	margin: 10px;
+	font-size: 20px;
+}
 .sudoku-container {
 	margin: 0 auto;
 	border: 5px solid #ccc;
+}
+.sudoku-container.solved {
+	border: 5px solid green;
 }
 .sudoku-container input {
 	height: 40px;
@@ -11,6 +22,7 @@
 	background-color: transparent;
 	border: 1px solid #ccc;
 	font-size: 20px;
+	text-align: center;
 }
 .sudoku-container .section-odd {
 }

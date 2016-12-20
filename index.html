@@ -10,11 +10,22 @@
     <div id="container">
     	
     </div>
+    <div id="operation">
+    	<button id="solve">Solve</button>
+    	<button id="reset">Reset</button>
+    </div>
 	<script src="js/jquery-2.0.3.min.js"></script>
     <script src="js/sudoku.js"></script>
     <script>
-    	var game = Sudoku.getInstance();
-    	$('#container').append(game.getGameBoard());
+    	var game = Sudoku.getInstance({
+    		'el': '#container'
+    	});
+    	$('#solve').click(function() {
+            game.solve();
+    	});
+    	$('#reset').click(function() {
+            game.reset();
+    	});
     </script>
 </body>
 </html>
