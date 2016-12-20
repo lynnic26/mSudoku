@@ -26,6 +26,14 @@ var Sudoku = (function($) {
                 for(var j = 0; j < 9; j ++) {
                     var $td = $('<td>');
                     var $input = $('<input>');
+
+                    var x = Math.floor(j / 3)
+                        , y = Math.floor(i / 3);
+                    if((x + y) % 2 == 0) {
+                        $td.addClass('section-even');
+                    } else {
+                        $td.addClass('section-odd');
+                    }
                     $td.append($input);
                     $tr.append($td);
                 }

@@ -3,8 +3,17 @@
 }
 .sudoku-container {
 	margin: 0 auto;
+	border: 5px solid #ccc;
 }
 .sudoku-container input {
 	height: 40px;
 	width: 40px;
+	background-color: transparent;
+	border: 1px solid #ccc;
+	font-size: 20px;
+}
+.sudoku-container .section-odd {
+}
+.sudoku-container .section-even {
+    background-color: #ccc;
 }
