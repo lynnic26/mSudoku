@@ -24,6 +24,9 @@
 	font-size: 20px;
 	text-align: center;
 }
+.sudoku-container input.filled {
+	color: green;
+}
 .sudoku-container .section-odd {
 }
 .sudoku-container .section-even {

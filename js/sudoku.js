@@ -8,19 +8,21 @@ var Sudoku = (function($) {
 
         // 初始化ui
         _game.getGameBoard();
+
         // public method
         return {
             reset: function() {
                 _game.resetGame();
             },
             solve: function() {
-                _game.solveGame();
+                _game.solveGame(0, 0);
             }
         }
     }
     function Game(config) {
         // Game initialization
         this.config = config;
+        this.$cellMatrix = {};
     }
     Game.prototype = {
         getGameBoard: function() {
@@ -34,9 +36,13 @@ var Sudoku = (function($) {
             this.$board = $table;
             for(var i = 0; i < 9; i ++) {
                 var $tr = $('<tr>');
+                this.$cellMatrix[i] = {};
                 for(var j = 0; j < 9; j ++) {
                     var $td = $('<td>');
-                    var $input = $('<input>');
+                    this.$cellMatrix[i][j] = $('<input>')
+                        .attr( 'maxlength', 1 )
+                        .data('row', i)
+                        .data('col', j);
                     var x = Math.floor(j / 3)
                         , y = Math.floor(i / 3);
                     if((x + y) % 2 == 0) {
@@ -44,7 +50,7 @@ var Sudoku = (function($) {
                     } else {
                         $td.addClass('section-odd');
                     }
-                    $td.append($input);
+                    $td.append(this.$cellMatrix[i][j]);
                     $tr.append($td);
                 }
                 $table.append($tr);
@@ -62,9 +68,83 @@ var Sudoku = (function($) {
         validatePuzzle: function() {
             return true;
         },
-        solveGame: function() {
-            if(!this.validatePuzzle) return;
-            this.$board.addClass('solved');
+        findClosestEmptySquare: function(row, col) {
+            var curLinearIndex = row * 9 + col
+                , walkingRow
+                , walkingCol
+                , $walkingSquare
+                , walkingVal;
+            for(var i = curLinearIndex; i < 81; i ++) {
+                walkingRow = Math.floor(i / 9); 
+                walkingCol = i % 9;
+                $walkingSquare = this.$cellMatrix[walkingRow][walkingCol];
+                walkingVal = $walkingSquare.val();
+                if(walkingVal == '') {
+                    return $walkingSquare;
+                }
+            }
+            return false;
+        },
+        findLegalValuesForSquare: function(row, col) {
+            var legalNums, val, secLeft, secRight, 
+                setTop, secBottom;
+            legalNums = [ 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+            for(var i = 0; i < 9; i ++) {
+                val = Number(this.$cellMatrix[row][i].val());
+                if(val !== 0) {
+                    if(legalNums.indexOf(val) > -1) {
+                        legalNums.splice(legalNums.indexOf(val), 1);
+                    }
+                }
+            }
+
+            for(var i = 0; i < 9; i ++ ) {
+                val = Number(this.$cellMatrix[i][col].val());
+                if(val !== 0) {
+                    if(legalNums.indexOf(val) > -1) {
+                        legalNums.splice(legalNums.indexOf(val), 1);
+                    }
+                }
+            }
+
+            secLeft = Math.floor(col / 3) * 3;
+            secRight = secLeft + 2;
+            secTop = Math.floor(row / 3) * 3;
+            secBottom = secTop + 2;
+            for(var i = secTop; i <= secTop; i ++) {
+                for(var j = secLeft; j <= secRight; j ++) {
+                    val = Number(this.$cellMatrix[i][j].val());
+                    if(val !== 0) {
+                        if(legalNums.indexOf(val) > -1) {
+                            legalNums.splice(legalNums.indexOf(val), 1);
+                        }
+                    }
+                }
+            } 
+            return legalNums;
+        },
+        solveGame: function(row, col) {
+            var squareRow, squareCol, legalValues;
+            // if(!this.validatePuzzle) return;
+            var $nextSquare = this.findClosestEmptySquare(row, col);
+            if(!$nextSquare) {
+                this.$board.addClass('solved');
+                return true;
+            } else {
+                squareRow = $nextSquare.data('row');
+                squareCol = $nextSquare.data('col');
+                legalValues = this.findLegalValuesForSquare(squareRow, squareCol);
+                for(var i = 0; i < legalValues.length; i ++) {
+                    $nextSquare.val(legalValues[i]).addClass('filled');
+                    if(this.solveGame(squareRow, squareCol)) {
+                        return true;
+                    } else {
+                        $nextSquare.val('').removeClass('filled');
+                    }
+                }
+                return false;
+            }
         },
         keyUpHandler: function(e) {
             // if(e.keyCode < 48 || e.keyCode > 57) {
