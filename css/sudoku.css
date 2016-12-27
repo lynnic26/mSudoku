@@ -3,6 +3,9 @@ html, body {
 	margin: 0;
 	font-family: SimHei;
 }
+.main-title {
+	color: #088ef0;
+}
 #container {
 	width: 100%;
 }
@@ -23,7 +26,7 @@ html, body {
 	border-radius: 5px;
 }
 .sudoku-container.solved {
-	border: 5px solid green;
+	border: 5px solid #088ef0;
 }
 .sudoku-container.invalid {
 	border: 5px solid #e76328;
@@ -37,7 +40,7 @@ html, body {
 	text-align: center;
 }
 .sudoku-container input.filled {
-	color: green;
+	color: #088ef0;
 }
 .sudoku-container input.invalid {
 	background-color: #ffc9d7;
