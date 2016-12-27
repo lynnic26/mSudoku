@@ -20,6 +20,7 @@ var Sudoku = (function($) {
         }
     }
     function Game(config) {
+        
         // Game initialization
         this.config = config;
         this.$cellMatrix = {};
