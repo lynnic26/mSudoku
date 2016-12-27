@@ -27,6 +27,9 @@
 .sudoku-container input.filled {
 	color: green;
 }
+.sudoku-container input.invalid {
+	background-color: #ffc9d7;
+}
 .sudoku-container .section-odd {
 }
 .sudoku-container .section-even {

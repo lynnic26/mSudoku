@@ -15,12 +15,14 @@ var Sudoku = (function($) {
                 _game.resetGame();
             },
             solve: function() {
-                _game.solveGame(0, 0);
+                if(_game.validatePuzzle()) {
+                    _game.solveGame(0, 0);
+                }
             }
         }
     }
     function Game(config) {
-        
+
         // Game initialization
         this.config = config;
         this.$cellMatrix = {};
@@ -67,8 +69,56 @@ var Sudoku = (function($) {
             $board.removeClass('solved');
         },
         validatePuzzle: function() {
+            console.log(this.$cellMatrix)
+            var $cellMatrix = this.$cellMatrix,
+                val,
+                isInvalid,
+                isDuplicated,
+
+                // single number between 1 to 9
+                regex = /^([1-9]{1})$/;
+            for(var row = 0; row < 9;row ++) {
+                for(var col = 0; col < 9; col ++) {
+                    val = $cellMatrix[row][col].val();
+                    $cellMatrix[row][col].removeClass('invalid').removeClass('duplicated');
+
+                    // not empty and not in 1-9,illegal input
+                    if(val !== '' && !regex.test(val)) {
+                       $cellMatrix[row][col].addClass('invalid');
+                       isInvalid = true;
+                    }
+                    if(val !=='' && regex.test(val)) {
+                        this.validNumber(val, row, col);
+                    }
+                }
+            }
             return true;
         },
+        validNumber: function(val, row, col) {
+            var $cellMatrix = this.$cellMatrix,
+                $cur = $cellMatrix[row][col],
+                secLeft, secRight, secTop, secBottom,
+                rowArr = [], colArr = [], secArr = [];
+            for(var i = 0; i < 9; i ++) {
+                if($cellMatrix[row][i].val() !== '') {
+                    rowArr.push(Number($cellMatrix[row][i].val()));
+                }
+                if($cellMatrix[i][col].val() !== '') {
+                    colArr.push(Number($cellMatrix[i][col].val()));
+                }
+            }
+            secLeft = Math.floor(col / 3) * 3;
+            secRight = secLeft + 2;
+            secTop = Math.floor(row / 3) * 3;
+            secBottom = secTop + 2;
+            for(var i = secTop; i <= secBottom; i ++) {
+                for(var j = secLeft; j <= secRight; j ++) {
+                    if($cellMatrix[i][j].val() !== '') {
+                        secArr.push(Number($cellMatrix[i][j].val()));
+                    }
+                }
+            } 
+        }, 
         findClosestEmptySquare: function(row, col) {
             var curLinearIndex = row * 9 + col
                 , walkingRow
@@ -113,7 +163,7 @@ var Sudoku = (function($) {
             secRight = secLeft + 2;
             secTop = Math.floor(row / 3) * 3;
             secBottom = secTop + 2;
-            for(var i = secTop; i <= secTop; i ++) {
+            for(var i = secTop; i <= secBottom; i ++) {
                 for(var j = secLeft; j <= secRight; j ++) {
                     val = Number(this.$cellMatrix[i][j].val());
                     if(val !== 0) {
@@ -127,7 +177,6 @@ var Sudoku = (function($) {
         },
         solveGame: function(row, col) {
             var squareRow, squareCol, legalValues;
-            // if(!this.validatePuzzle) return;
             var $nextSquare = this.findClosestEmptySquare(row, col);
             if(!$nextSquare) {
                 this.$board.addClass('solved');
