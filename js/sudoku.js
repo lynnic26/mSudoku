@@ -73,8 +73,7 @@ var Sudoku = (function($) {
             var $cellMatrix = this.$cellMatrix,
                 val,
                 hasDuplication = false,
-                isInvalid = false,
-                isDuplicated = false,
+                hasNonnumeric = false,
 
                 // single number between 1 to 9
                 regex = /^([1-9]{1})$/;
@@ -85,23 +84,22 @@ var Sudoku = (function($) {
 
                     // not empty and not in 1-9,illegal input
                     if(val !== '' && !regex.test(val)) {
-                       isInvalid = false;
+                       hasNonnumeric = true;
                        $cellMatrix[row][col].addClass('invalid');
                     }
                     if(val !=='' && regex.test(val)) {
-                        isDuplicated = this.validNumber(Number(val), row, col);
-                        if(isDuplicated) {
+                        if(this.validNumber(Number(val), row, col)) {
                             $cellMatrix[row][col].addClass('duplicated');
                             hasDuplication = true;
                         }
                     }
                 }
             }
-            if(isInvalid || hasDuplication) {
+            if(hasNonnumeric || hasDuplication) {
                 this.$board.removeClass('invalid solved').addClass('invalid');
                 return false;
             }
-            return false;
+            return true;
         },
         validNumber: function(val, row, col) {
             var $cellMatrix = this.$cellMatrix,
