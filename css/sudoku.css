@@ -1,3 +1,11 @@
+html, body {
+	width: 100%;
+	margin: 0;
+	font-family: SimHei;
+}
+#container {
+	width: 100%;
+}
 .main-title {
     text-align: center;
 }
@@ -5,13 +13,14 @@
 	text-align: center;
 }
 #operation button {
-	padding: 5px;
-	margin: 10px;
+	margin: 20px 10px;
+
 	font-size: 20px;
 }
 .sudoku-container {
 	margin: 0 auto;
 	border: 5px solid #ccc;
+	border-radius: 5px;
 }
 .sudoku-container.solved {
 	border: 5px solid green;
@@ -20,8 +29,8 @@
 	border: 5px solid #e76328;
 }
 .sudoku-container input {
-	height: 40px;
-	width: 40px;
+	height: 30px;
+	width: 30px;
 	background-color: transparent;
 	border: 1px solid #ccc;
 	font-size: 20px;
@@ -40,4 +49,10 @@
 }
 .sudoku-container .section-even {
     background-color: #ccc;
+}
+@media screen and (max-width: 320px) {
+	.sudoku-container input {
+		width: 25px;
+		height: 25px;
+	}
 }

@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" id="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	<title>Sudoku</title>
     <link rel="stylesheet" href="css/sudoku.css">
+    <link rel="stylesheet" href="http://www.bootcss.com/p/buttons/css/buttons.css">
 </head>
 <body>
     <h1 class="main-title">Sudoku</h1>
@@ -12,8 +13,8 @@
     	
     </div>
     <div id="operation">
-    	<button id="solve">Solve</button>
-    	<button id="reset">Reset</button>
+    	<button id="solve" class="button button-glow button-rounded button-raised button-primary">Solve</button>
+    	<button id="reset" class="button button-glow button-border button-rounded button-primary">Reset</button>
     </div>
 	<script src="js/jquery-2.0.3.min.js"></script>
     <script src="js/sudoku.js"></script>
