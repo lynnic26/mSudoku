@@ -16,6 +16,9 @@
 .sudoku-container.solved {
 	border: 5px solid green;
 }
+.sudoku-container.invalid {
+	border: 5px solid #e76328;
+}
 .sudoku-container input {
 	height: 40px;
 	width: 40px;
@@ -29,6 +32,9 @@
 }
 .sudoku-container input.invalid {
 	background-color: #ffc9d7;
+}
+.sudoku-container input.duplicated {
+	background-color: #fdb696;
 }
 .sudoku-container .section-odd {
 }
